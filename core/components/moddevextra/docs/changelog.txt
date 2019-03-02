@@ -1,0 +1,102 @@
+Changelog for modDevExtras.
+
+1.0.0 beta
+==============
+Исправлено
+- транслитератор для алиас - resolve.fix_russian (wfoojjaec)
+Добавление приложений
+- csrfhelper
+
+1.0.0 beta
+==============
+Добавлено
+- транслитератор для алиас - fix_russian
+- Провайдери modstore.ru и finiv.in.ua
+- Автоматическое создание папок в assets (css, js, img, images)
+- Bootstrap 3.3.7
+- jQuery до 3.3.1
+- Удаление changelog.txt
+- Переименование ht.access в .htaccess
+- Установку компонентов з modstore.pro
+- Font Awesome 5
+- Меню установки чанков та шаблонов
+- Бекап чанков та шаблонов
+- Настройки локали
+- Настройку site_name
+- Настройку manager_week_start
+- Источник файлов Dev Folder
+
+Добавление и настройка технических страниц
+- search
+- Ошибка 404
+- Достпуп запрещен
+- Сайт временно недоступен
+- sitemap и сниппет pdositemap
+- robots
+
+Добавление чанков
+- tpl.footer
+- tpl.head
+- tpl.crumbs
+
+Добавление шаблонов
+- service для технических страниц
+- page общий
+
+Добавление приложений
+- pdoTools
+- MinifyX
+- modDevTools
+- Console
+- translit
+- Ace
+- CodeMirror
+- CKEditor
+- TinyMCE
+- ClientConfig
+- miniShop2
+- debugParser
+- controlErrorLog
+- modDevTools
+- looked
+- FormIt
+- Vapor
+- BackupMODX
+- HTML2Minify
+- Babel
+- CloudFlare API Integration
+- dbAdmin
+- EmptyAlias
+- SEO Pro
+- SEO Tab
+- GoogleTagManagerMODX
+- LogPageNotFound
+- phpconsole
+- GoogleCloudStorage
+- DropboxUploader
+- ReCaptchaV2
+- AdminTools
+- simpleUpdater
+- SmushIt
+- AjaxForm
+- MIGX
+- Collections
+- TimerangeTV
+- FormItBuilder
+- UiCMPGenerator
+- LikeDislike
+- cronmanager
+- YMap
+- VersionX
+- NumberAbbreviation
+- tvSuperSelect
+- mixedImage
+- TVTable
+- Tickets
+- FastUploadTV
+- siteStatistics
+- msTelegram
+- ms2form
+- AjaxSnippet
+- msDemoData
+- Image+
