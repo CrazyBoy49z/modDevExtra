@@ -14,7 +14,12 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
                 // get resources checked
 	            foreach ($options['install_resources'] as $key => $resource) {
 	                $page_add = $options['resources'][$resource];
-	                resource($page_add);
+	                /* @var $resource modResource */
+				if(!$resource = $modx->getObject('modResource', array('uri' => $page_add['uri']))){
+					$resource = $modx->newObject('modResource');
+					$resource->fromArray($page_add, '', true, true);
+					$resource->save();
+				}
 	            }
             }
 		} else {
@@ -24,21 +29,6 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
 	case
 	xPDOTransport::ACTION_UNINSTALL:
 		break;
-}
-
-function resource($attr) {
-    global $modx;
-    /* @var $resource modResource */
-    if(!$resource = $modx->getObject('modResource', array('uri' => $attr['uri']))){
-	    $resource = $modx->newObject('modResource');
-	    $resource->fromArray($attr, '', true, true);
-	    $resource->save();
-    }else{
-//	    $chBak =MODX_ASSETS_PATH.'backup/'.$resource->get('alias').' '.date("Y-m-d H:i:s").'.txt';
-//	    file_put_contents($chBak,$resource->get('content'));
-//	    $modx->log(modX::LOG_LEVEL_INFO, 'Cделано бекап чанка '.$chBak);
-	    //unset($chBak);
-    }
 }
 
 return true;
