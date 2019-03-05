@@ -6,7 +6,6 @@
  * @param string $start Directory for find and replace in files old name to new name
  *
  */
-
 $new_name = !empty($_REQUEST['name'])
     ? $_REQUEST['name']
     : (!empty($argv[1])
@@ -16,7 +15,7 @@ $new_name_lower = strtolower($new_name);
 $start = dirname(__FILE__);
 
 if (empty($new_name)) {
-    exit("\n" . 'You need to specify a new name of component in this file on line 9, or send it via $_GET["name"].');
+    exit("\n" . 'You need to specify a new name for the component as first argument, or send it via $_GET["name"].');
 }
 // --
 
@@ -26,9 +25,9 @@ $old_name_lower = strtolower($old_name);
 $dirs = scandir($start);
 
 
-$tmp = explode('/', $start);
+$tmp = explode(DIRECTORY_SEPARATOR, $start);
 array_pop($tmp);
-$end = implode('/', $tmp) . '/' . $new_name;
+$end = implode(DIRECTORY_SEPARATOR, $tmp) . DIRECTORY_SEPARATOR . $new_name;
 @rename($start, $end);
 rename_extra($end, array($old_name, $old_name_lower), array($new_name, $new_name_lower));
 
@@ -51,10 +50,18 @@ function rename_extra($start_path, $find = array(), $replace = array())
             continue;
         }
 
-        $old_path = str_replace('//', '/', $start_path . '/' . $item);
+        $old_path = str_replace(
+            DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
+            $start_path . DIRECTORY_SEPARATOR . $item
+        );
 
         if (strpos($old_path, $find[1]) !== false) {
-            $new_path = str_replace('//', '/', $start_path . '/' . str_replace($find, $replace, $item));
+            $new_path = str_replace(
+                DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR,
+                DIRECTORY_SEPARATOR,
+                $start_path . DIRECTORY_SEPARATOR . str_replace($find, $replace, $item)
+            );
             if (!rename($old_path, $new_path)) {
                 exit("\nCould not rename $old_path to $new_path");
             }
@@ -70,7 +77,7 @@ function rename_extra($start_path, $find = array(), $replace = array())
             $content = file_get_contents($new_path);
             $content = str_replace($find, $replace, $content);
 
-            if ($item == 'index.class.php') {
+            if ($item == 'home.class.php') {
                 $content = str_replace($replace[0] . 'ManagerController', 'modDevExtraManagerController', $content);
             }
 

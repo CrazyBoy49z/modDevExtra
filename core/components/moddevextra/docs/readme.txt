@@ -1,12 +1,7 @@
-modDevExtras for MODx Revolution
+--------------------
+modDevExtra
+--------------------
+Author: John Doe <john@doe.com>
+--------------------
 
-Для сборки использовано Компоненти:
-    https://github.com/ilyautkin/siteExtra
-    https://github.com/webnitros/modMySettings
-    https://github.com/argnist/StaticSaver
-
-Contacts:
-    email: yura.finiv@gmail.com
-    skype: CrazyBoy49z
-    site:  https://yura.finiv.in.ua
-
+A basic Extra for MODx Revolution.
