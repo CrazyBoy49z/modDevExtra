@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('MODX_CORE_PATH')) {
-    $path = dirname(__FILE__);
+    $path = __DIR__;
     while (!file_exists($path . '/core/config/config.inc.php') && (strlen($path) > 1)) {
         $path = dirname($path);
     }
@@ -11,7 +11,7 @@ if (!defined('MODX_CORE_PATH')) {
 return [
     'name' => 'modDevExtra',
     'name_lower' => 'moddevextra',
-    'version' => '2.0.0',
+    'version' => '1.0.0',
     'release' => 'pl',
     // Install package to site right after build
     'install' => true,
@@ -31,6 +31,7 @@ return [
         'plugins' => false,
         'snippets' => false,
         'chunks' => false,
+        'templates' => false,
     ],
     // Log settings
     'log_level' => !empty($_REQUEST['download']) ? 0 : 3,
