@@ -4,7 +4,7 @@ return [
     'BaseTemplate' => [
         'file' => 'base',
         'description' => 'Base template',
-        'static_file'=>$path.'base.php'
+        'static_file'=>$path.'base.tpl'
     ],
 
 ];
