@@ -6,35 +6,31 @@
  * @author CrazyBoy49z
  * https://yura.finiv.in.ua
  */
-$mediaSources = array();
+$mediaSources = [
+    'Dev'=>[
+        'name' => 'Dev Folder',
+        'description' => 'Dev Folder Source',
+        'properties' => [
+            "basePath" => [
+                "name" => "basePath",
+                "desc" => "prop_file.basePath_desc",
+                "type" => "textfield",
+                "options" => [],
+                "value" => "core/elements/",
+                "lexicon" => "core:source",
+            ],
+            "baseUrl" => [
+                "name" => "baseUrl",
+                "desc" => "prop_file.baseUrl_desc",
+                "type" => "textfield",
+                "options" => [],
+                "value" => "core/elements/",
+                "lexicon" => "core:source",
+            ]
+        ]
+    ]
+];
 
-$params = array(
-    "basePath" => array(
-        "name" => "basePath",
-        "desc" => "prop_file.basePath_desc",
-        "type" => "textfield",
-        "options" => Array(),
-        "value" => "core/elements/",
-        "lexicon" => "core:source",
-    ),
-    "baseUrl" => Array
-    (
-        "name" => "baseUrl",
-        "desc" => "prop_file.baseUrl_desc",
-        "type" => "textfield",
-        "options" => Array(),
-        "value" => "core/elements/",
-        "lexicon" => "core:source",
-    )
-);
 
-$mediaSource = $modx->newObject('sources.modMediaSource', array(
-    'name' => 'Dev Folder',
-    'class_key' => 'sources.modFileMediaSource',
-    'description'   => 'Dev Folder Source',
-    'properties' => $params,
-));
-
-$mediaSources[] = $mediaSource;
 
 return $mediaSources;

@@ -1,7 +1,7 @@
 <?php
-
 error_reporting(E_ALL);
-ini_set('display_errors',1);
+ini_set('log_errors', TRUE);
+ini_set("error_log", __DIR__ . "/php-error.log");
 
 class modDevExtraPackage
 {
@@ -11,13 +11,11 @@ class modDevExtraPackage
     public $config = [];
     /** @var array $attributes */
     private $attributes = [];
-
     /** @var modPackageBuilder $builder */
     public $builder;
     /** @var modCategory $vehicle */
     public $category;
     public $category_attributes = [];
-
     protected $_idx = 1;
 
 
@@ -282,7 +280,7 @@ class modDevExtraPackage
     }
 
     /**
-     *
+     * Add provider
      */
     protected function provider()
     {
@@ -308,38 +306,42 @@ class modDevExtraPackage
         }
     }
 
+
+    /**
+     * Add mediasources
+     */
     protected function mediasources()
     {
         $mediaSources = include($this->config['elements'] . 'mediasources.php');
         if (!is_array($mediaSources)) {
-
             $this->modx->log(modX::LOG_LEVEL_ERROR, 'Adding MediaSources failed.');
             return;
         }
-        /* Create mediaSources */
-
-
-        foreach ($mediaSources as & $mediaSource) {
-            if ($media = $this->modx->getObject('sources.modMediaSource', array(
-                    'name' => $mediaSource['name']
-                )) AND !$this->modx->getObject('sources.modMediaSourceElement', array(
-                    'source' => $media->id,
-                    //'object' => $file->id,
-                    'object_class' => 'modTemplateVar',
-                ))
-                AND $sl = $this->modx->newObject('sources.modMediaSourceElement')) {
-                $sl->set('source', $media->id);
-                //$sl->set('object', $file->id);
-                $sl->set('object_class', 'modTemplateVar');
-                $sl->save();
-            }
+        $attributes = [
+            xPDOTransport::UNIQUE_KEY => 'name',
+            xPDOTransport::PRESERVE_KEYS => true,
+            xPDOTransport::UPDATE_OBJECT => !empty($this->config['update']['mediasources']),
+            xPDOTransport::RELATED_OBJECTS => false,
+        ];
+        $objects = [];
+        foreach ($mediaSources as $name => $data) {
+            /** @var modChunk[] $objects */
+            $objects[] = $this->modx->newObject('sources.modMediaSource', array_merge([
+                'name' => $data['name'],
+                'class_key' => 'sources.modFileMediaSource',
+                'description' => $data['description'],
+                'properties' => $data['properties'],
+            ], $data));
         }
+        foreach ($objects as & $mediasource) {
+            $vehicle = $this->builder->createVehicle($mediasource, $attributes);
+            $this->builder->putVehicle($vehicle);
+        }
+
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($mediaSources) . ' MediaSources.');
 
         flush();
     }
-
-
     /**
      * Add settings
      */
@@ -468,13 +470,12 @@ class modDevExtraPackage
                 $item['alias'] = $alias;
                 $item['context_key'] = $context;
                 $item['menuindex'] = $menuindex++;
-                $objects[] = array_merge(//fix
+                $objects = array_merge(
                     $objects,
                     $this->_addResource($item, $alias)
                 );
             }
         }
-
         /** @var modResource $resource */
         foreach ($objects as $resource) {
             $vehicle = $this->builder->createVehicle($resource, $attributes);
@@ -733,7 +734,8 @@ class modDevExtraPackage
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($objects) . ' Templates');
     }
 
-    protected  function folder_create(){
+    protected function folder_create()
+    {
         $folder = include($this->config['elements'] . 'folder_create.php');
         if (!is_array($folder)) {
             $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not create folders');
@@ -783,12 +785,37 @@ class modDevExtraPackage
         }
     }
 
+    protected function remove()
+    {
+        $remove = include($this->config['elements'] . 'remove.php');
+
+        foreach ($remove as $filename => $file) {
+            if (file_exists($file)) {
+                $this->modx->log(modX::LOG_LEVEL_INFO, "Removing <b>$filename</b>");
+                unlink($file);
+            }
+        }
+    }
+
+    protected function rename()
+    {
+        $rename = include($this->config['elements'] . 'rename.php');
+        foreach ($rename as $from => $to) {
+            if (file_exists($from)) {
+                if (!file_exists($to)) {
+                    rename($from, $to);
+                    $this->modx->log(modX::LOG_LEVEL_INFO, "Renaming <b>$from</b>");
+                }
+            }
+        }
+    }
 }
 
 /** @var array $config */
 if (!file_exists(__DIR__ . '/config.inc.php')) {
     exit('Could not load MODX config. Please specify correct MODX_CORE_PATH constant in config file!');
 }
+
 $config = require(__DIR__ . '/config.inc.php');
 //print_r($config);
 $install = new modDevExtraPackage(MODX_CORE_PATH, $config);

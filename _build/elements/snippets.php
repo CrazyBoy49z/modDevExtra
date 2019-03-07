@@ -1,5 +1,5 @@
 <?php
-
+$path = 'core/elements/snippets/'. $this->config['name_lower'].'/';
 return [
     'modDevExtra' => [
         'file' => 'moddevextra',
@@ -34,5 +34,6 @@ return [
                 'value' => false,
             ],
         ],
+        'static_file'=>$path.'moddevextra.php'
     ],
 ];

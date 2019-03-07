@@ -17,21 +17,22 @@ return [
     'install' => true,
     // Which elements should be updated on package upgrade
     'update' => [
-        'chunks' => false,
+        'chunks' => true,
         'menus' => true,
         'plugins' => true,
-        'resources' => false,
+        'resources' => true,
         'settings' => false,
         'snippets' => true,
-        'templates' => false,
+        'templates' => true,
         'widgets' => false,
+        'mediasources' => true,
     ],
     // Which elements should be static by default
     'static' => [
-        'plugins' => false,
-        'snippets' => false,
-        'chunks' => false,
-        'templates' => false,
+        'plugins' => true,
+        'snippets' => true,
+        'chunks' => true,
+        'templates' => true,
     ],
     // Log settings
     'log_level' => !empty($_REQUEST['download']) ? 0 : 3,

@@ -15,9 +15,9 @@ $folder = [
     ],
     'core' => [
         'elements',
-        'elements/chunk',
-        'elements/snippet',
-        'elements/template',
+        'elements/chunks',
+        'elements/snippets',
+        'elements/templates',
         'elements/plugins',
     ]
 ];
